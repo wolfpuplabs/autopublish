@@ -1,0 +1,9 @@
+{
+  "name": "instagram-auto-publish-agent",
+  "version": "1.0.0",
+  "description": "Social media automation agent integrated with Vercel Blob",
+  "main": "api/upload.js",
+  "dependencies": {
+    "@vercel/blob": "^0.23.4"
+  }
+}
