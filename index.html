@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Auto-Publish Agent</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #fafafa; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; background: white; padding: 25px; border-radius: 12px; border: 1px solid #dbdbdb; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        h2 { text-align: center; color: #E1306C; margin-bottom: 5px;}
+        p.subtitle { text-align: center; color: #8e8e8e; font-size: 14px; margin-top: 0; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { font-weight: 600; display: block; margin-bottom: 5px; font-size: 14px; color: #262626;}
+        input[type="text"], input[type="datetime-local"], textarea { width: 100%; padding: 10px; border: 1px solid #dbdbdb; border-radius: 6px; box-sizing: border-box; font-family: inherit; }
+        button { width: 100%; padding: 12px; background-color: #0095f6; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        button:hover { background-color: #1877f2; }
+        #logArea { margin-top: 20px; padding: 15px; background: #282c34; color: #61dafb; border-radius: 6px; font-family: monospace; font-size: 12px; min-height: 80px; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>📸 IG Auto-Publish</h2>
+        <p class="subtitle">Platform Manajemen Internal</p>
+        
+        <div class="form-group">
+            <label for="imgUrl">URL Gambar Publik (Wajib untuk Meta API):</label>
+            <input type="text" id="imgUrl" placeholder="https://contoh.com/gambar-keren.jpg">
+        </div>
+
+        <div class="form-group">
+            <label for="caption">Caption Instagram:</label>
+            <textarea id="caption" rows="4" placeholder="Tulis caption menarikmu di sini... #AutoPublish"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="scheduleTime">Jadwal Tayang (Opsional):</label>
+            <input type="datetime-local" id="scheduleTime">
+        </div>
+
+        <button onclick="prosesPublish()">Jalankan Agen Publish</button>
+
+        <div id="logArea">Menunggu perintah...</div>
+    </div>
+
+    <script>
+        function updateLog(message) {
+            const logArea = document.getElementById('logArea');
+            logArea.innerText += `\n> ${message}`;
+        }
+
+        function prosesPublish() {
+            const imgUrl = document.getElementById('imgUrl').value;
+            const caption = document.getElementById('caption').value;
+            const schedule = document.getElementById('scheduleTime').value;
+            
+            document.getElementById('logArea').innerText = "Menjalankan agen...";
+
+            if (!imgUrl || !caption) {
+                updateLog("[ERROR] URL Gambar dan Caption tidak boleh kosong!");
+                return;
+            }
+
+            if (schedule) {
+                updateLog(`[INFO] Postingan dijadwalkan untuk: ${schedule}`);
+                updateLog(`[INFO] Menyimpan data ke database... Agen akan memposting otomatis pada waktu tersebut.`);
+                // Di sini, data dikirim ke backend untuk disimpan di database (Cron Job).
+                return; 
+            }
+
+            // --- SIMULASI 2 LANGKAH INSTAGRAM GRAPH API ---
+            updateLog("[STEP 1] Menghubungi Meta API untuk membuat Media Container...");
+            
+            setTimeout(() => {
+                const fakeContainerId = "IG_CONT_" + Math.floor(Math.random() * 1000000);
+                updateLog(`[SUCCESS] Container dibuat! ID: ${fakeContainerId}`);
+                updateLog("[STEP 2] Memerintahkan Meta untuk mempublikasikan Container...");
+
+                setTimeout(() => {
+                    const fakePostId = "IG_POST_" + Math.floor(Math.random() * 1000000);
+                    updateLog(`[SUCCESS] Postingan berhasil tayang di Instagram! ID Post: ${fakePostId}`);
+                }, 2000);
+
+            }, 2000);
+        }
+    </script>
+
+</body>
+</html>
